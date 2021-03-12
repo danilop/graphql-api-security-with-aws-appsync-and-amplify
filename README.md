@@ -1,0 +1,4 @@
+GraphQL API Security best practices with AWS AppSync and Amplify
+================================================================
+
+AWS AppSync is a fully managed service which allows to deploy and interact with serverless scalable GraphQL backends on AWS. AppSync uses security best practices that AWS has developed operating large systems at scale in the cloud, with built-in DDoS protection in all its GraphQL API endpoints leveraging the infrastructure, technologies, and techniques that AWS uses for many other services. Amplify is a platform and framework used to build secure and scalable applications in the cloud with enhanced development velocity. In this session, we go into AppSync’s security features and describe when and how to use them for your own applications. Also, we show how Amplify GraphQL Transform directives can simplify GraphQL schema definitions and authorization rules for AppSync APIs.
