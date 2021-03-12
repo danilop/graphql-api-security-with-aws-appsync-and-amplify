@@ -1,0 +1,16 @@
+type Blog {
+  id: ID!
+  name: String!
+  posts: [Post]
+}
+type Post {
+  id: ID!
+  title: String!
+  blog: Blog
+  comments: [Comment]
+}
+type Comment {
+  id: ID!
+  content: String
+  post: Post
+}

@@ -1,0 +1,133 @@
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type OwnOnlyTodo @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type AnotherPrivateTodo @model
+  # Without "create", the owner is not stored
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "owner", operations: [create, update, delete, read] },
+    ])
+ {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type MyOwnTodo @model
+  @auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type WorkTogetherTodo @model
+  @auth(rules: [{ allow: owner, operations: [create, delete] }]) {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type WithAdminTodo @model
+  @auth(rules: [
+    { allow: owner, operations: [create, delete, update] },
+    { allow: groups, groups: ["Admin"] } # Still readable by anyone???
+  ]) {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type PrivateGroupTodo @model
+  @auth(rules: [{ allow: groups, groupsField: "groups" }]) {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type GroupTodo @model
+  @auth(rules: [{ allow: groups, groupsField: "groups", operations: [create, delete, update] }]) {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type PublicTodo @model
+  @auth(rules: [{ allow: public }]) { # API Key
+  id: ID!
+  name: String!
+  description: String
+}
+
+type AlsoPublicTodo @model
+  @auth(rules: [{ allow: public, provider: iam }]) { # "UnAuthenticated Role" from Cognito Identity Pools
+  id: ID!
+  name: String!
+  description: String
+}
+
+type PrivateTodo @model
+  @auth(rules: [{ allow: private }]) { # Valid JWT token from the configured Cognito User Pool
+  id: ID!
+  name: String!
+  description: String
+}
+
+type OidcPrivateTodo @model
+  @auth(rules: [{ allow: owner, provider: oidc, identityClaim: "sub" }]) { # OpenID Connect
+  id: ID!
+  name: String!
+  description: String
+}
+
+# For a web/mobile app
+type AppTodo @model
+  @auth(rules: [
+    { allow: owner }, # Owner authenticated user
+    { allow: private, operations: [update] }, # Other authenticated users can update
+    { allow: public, operations: [read] } # Guest users (not authenticated) users can read
+  ]) { 
+  id: ID!
+  name: String!
+  description: String
+}
+
+# For other microservices to read
+type MicroserviceTodo @model
+  @auth(rules: [
+    { allow: owner }, # Owner authenticated user
+    { allow: private, provider: iam, operations: [read] } # For other microservices assuming an IAM role
+  ]) { 
+  id: ID!
+  name: String!
+  description: String
+}
+
+# If you do not wish to use the default username or cognito:groups claims
+# from your JWT token which are populated by Amazon Cognito
+type CustomClaimsTodo @model
+  @auth(rules: [
+    { allow: owner, identityClaim: "user_id" },
+    { allow: groups, groups: ["Moderator"], groupClaim: "user_groups" }
+  ]) { 
+  id: ID!
+  name: String!
+  description: String
+}
+
+# Field level authorization
+type LimitedAdminTodo
+  @model @auth(rules: [{ allow: groups, groups: ["Admin"], operations:[update] }])
+{
+  id: ID!
+  name: String!
+  description: String @auth(rules: [{ allow: owner, operations: [update] }]) # Only the owner can update the description
+}

@@ -1,0 +1,27 @@
+{
+    "Name": "BodySizeRule",
+    "Priority": 1,
+    "Action": {
+        "Block": {}
+    },
+    "Statement": {
+        "SizeConstraintStatement": {
+            "ComparisonOperator": "GE",
+            "FieldToMatch": {
+                "Body": {}
+            },
+            "Size": 1024,
+            "TextTransformations": [
+                {
+                    "Priority": 0,
+                    "Type": "NONE"
+                }
+            ]
+        }
+    },
+    "VisibilityConfig": {
+        "CloudWatchMetricsEnabled": true,
+        "MetricName": "BodySizeRule",
+        "SampledRequestsEnabled": true
+    }
+}

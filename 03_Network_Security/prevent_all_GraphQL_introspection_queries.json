@@ -1,0 +1,27 @@
+{
+    "Name": "BodyRule",
+    "Priority": 5,
+    "Action": {
+      "Block": {}
+    },
+    "VisibilityConfig": {
+      "SampledRequestsEnabled": true,
+      "CloudWatchMetricsEnabled": true,
+      "MetricName": "BodyRule"
+    },
+    "Statement": {
+      "ByteMatchStatement": {
+        "FieldToMatch": {
+          "Body": {}
+        },
+        "PositionalConstraint": "CONTAINS",
+        "SearchString": "__schema",
+        "TextTransformations": [
+          {
+            "Type": "NONE",
+            "Priority": 0
+          }
+        ]
+      }
+    }
+  }

@@ -1,0 +1,32 @@
+# Only the owner can see the SSN
+type User @model {
+  id: ID!
+  username: String
+  ssn: String @auth(rules: [{ allow: owner, ownerField: "username" }])
+}
+
+# Posts can be seen only via the User model
+type User @model {
+  id: ID!
+  username: String
+  posts: [Post]
+    @connection(name: "UserPosts")
+    @auth(rules: [{ allow: owner, ownerField: "username" }])
+}
+type Post @model(queries: null) { ... }
+
+# Salary can be seens only by the owner (via username) anc can be seen and modified by Admins
+type Employee @model {
+  id: ID!
+  email: String
+  username: String
+
+  # Owners & members of the "Admin" group may read employee salaries.
+  # Only members of the "Admin" group may create an employee with a salary
+  # or update a salary.
+  salary: String
+    @auth(rules: [
+      { allow: owner, ownerField: "username", operations: [read] },
+      { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+    ])
+}

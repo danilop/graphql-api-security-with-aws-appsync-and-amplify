@@ -1,0 +1,18 @@
+{
+    "Name": "Throttle",
+    "Priority": 0,
+    "Action": {
+        "Block": {}
+    },
+    "VisibilityConfig": {
+        "SampledRequestsEnabled": true,
+        "CloudWatchMetricsEnabled": true,
+        "MetricName": "Throttle"
+    },
+    "Statement": {
+        "RateBasedStatement": {
+            "Limit": 100,
+            "AggregateKeyType": "IP"
+        }
+    }
+}

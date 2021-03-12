@@ -1,0 +1,39 @@
+type Blog @model
+  @auth(rules: [
+    { allow: owner, operations: [create, update, delete] },
+    { allow: groups, groups: ["Admin"] }
+  ]) {
+  id: ID!
+  name: String!
+  posts: [Post] @connection(keyName: "byBlog", fields: ["id"])
+}
+
+type Post
+  @model
+  @key(name: "byBlog", fields: ["blogID"])
+  @auth(rules: [
+    { allow: owner, operations: [create, update, delete] },
+    { allow: groups, groups: ["Admin"] }
+    { allow: groups, groups: ["Editor"], operations: [update] }
+  ]) {
+  id: ID!
+  title: String!
+  blogID: ID!
+  blog: Blog @connection(fields: ["blogID"])
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+  #editors # automatically populated unless set equal to [] in the create mutation
+}
+
+type Comment
+  @model
+  @key(name: "byPost", fields: ["postID", "content"])
+  @auth(rules: [
+    { allow: owner, operations: [create, update, delete] },
+    { allow: groups, groups: ["Admin"], operations: [delete] }
+  ]) {
+  id: ID!
+  postID: ID!
+  post: Post @connection(fields: ["postID"])
+  content: String!
+  #admins # automatically populated unless set equal to [] in the create mutation
+}
