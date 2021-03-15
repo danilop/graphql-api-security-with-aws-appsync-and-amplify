@@ -14,7 +14,9 @@ type AnotherPrivateTodo @model
   # Without "create", the owner is not stored
   @auth(
     rules: [
-      { allow: owner, ownerField: "owner", operations: [create, update, delete, read] },
+      { allow: owner,
+        ownerField: "owner",
+        operations: [create, update, delete, read] },
     ])
  {
   id: ID!
@@ -23,7 +25,8 @@ type AnotherPrivateTodo @model
 }
 
 type MyOwnTodo @model
-  @auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
+  @auth(rules: [
+    { allow: owner, operations: [create, delete, update] }]) {
   id: ID!
   name: String!
   description: String
@@ -39,7 +42,7 @@ type WorkTogetherTodo @model
 type WithAdminTodo @model
   @auth(rules: [
     { allow: owner, operations: [create, delete, update] },
-    { allow: groups, groups: ["Admin"] } # Still readable by anyone???
+    { allow: groups, groups: ["Admin"] }
   ]) {
   id: ID!
   name: String!
@@ -54,7 +57,9 @@ type PrivateGroupTodo @model
 }
 
 type GroupTodo @model
-  @auth(rules: [{ allow: groups, groupsField: "groups", operations: [create, delete, update] }]) {
+  @auth(rules: [{ allow: groups, 
+                  groupsField: "groups",
+                  operations: [create, delete, update] }]) {
   id: ID!
   name: String!
   description: String

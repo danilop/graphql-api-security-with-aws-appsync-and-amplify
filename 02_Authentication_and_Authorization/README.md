@@ -9,7 +9,7 @@ Possible ways to authenticate and authorize access to GraphQL APIs managed by Ap
 
 How to add/manage authentication and authorization:
 - amplify add auth
-- amplify import auth # import existing Cognito user pool
+- amplify import auth # Import an existing Cognito user pool
 - amplify update auth
 
 Other things to consider:

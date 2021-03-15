@@ -24,4 +24,6 @@ To simplify adding operations to a GraphQL schema, you can use:
 
 GraphQL Schema Definition Language (SDL) -> AWS CloudFormation templates
 
-With Amplify: amplify add api
+With Amplify:
+- amplify add api
+- amplify update api
