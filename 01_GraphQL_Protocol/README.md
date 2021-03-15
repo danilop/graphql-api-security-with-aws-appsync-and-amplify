@@ -27,3 +27,4 @@ GraphQL Schema Definition Language (SDL) -> AWS CloudFormation templates
 With Amplify:
 - amplify add api
 - amplify update api
+- amplify api gql-compile
